@@ -356,6 +356,27 @@ void PerformQuickWithdrawOption(short Option)
         WithdrawAmount * -1, vClients);
     CurrentClient.AccountBalance -= WithdrawAmount;
 }
+// =====================
+// Quick Withdraw Screen
+// =====================
+
+void ShowQuickWithdrawScreen()
+{
+    system("cls");
+    cout << "===========================================\n";
+    cout << "\t\tQuick Withdraw\n";
+    cout << "===========================================\n";
+    cout << "\t[1]  20\t\t[2]  50\n";
+    cout << "\t[3]  100\t[4]  200\n";
+    cout << "\t[5]  400\t[6]  600\n";
+    cout << "\t[7]  800\t[8]  1000\n";
+    cout << "\t[9]  Exit\n";
+    cout << "===========================================\n";
+    cout << "\tYour Balance: $" << CurrentClient.AccountBalance << "\n";
+    cout << "===========================================\n";
+
+    PerformQuickWithdrawOption(ReadQuickWithdrawOption());
+}
 int main()
 {
     return 0;
