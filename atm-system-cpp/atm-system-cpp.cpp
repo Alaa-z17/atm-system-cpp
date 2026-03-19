@@ -163,7 +163,74 @@ vector<stClient> SaveClientsToFile(string FileName,
     }
     return vClients;
 }
+// =====================
+// Authentication
+// =====================
 
+bool FindClientByAccountAndPin(string AccountNumber,
+    string PinCode, stClient& Client)
+{
+    vector<stClient> vClients = LoadClientsFromFile(ClientsFileName);
+
+    if (vClients.empty())
+    {
+        stClient InitialClient;
+        InitialClient.AccountNumber = "101";
+        InitialClient.PinCode = "1234";
+        InitialClient.Name = "Admin Client";
+        InitialClient.Phone = "0000000";
+        InitialClient.AccountBalance = 5000;
+        InitialClient.MarkForDelete = false;
+        vClients.push_back(InitialClient);
+        SaveClientsToFile(ClientsFileName, vClients);
+        vClients = LoadClientsFromFile(ClientsFileName);
+    }
+
+    for (stClient& C : vClients)
+    {
+        if (C.AccountNumber == AccountNumber &&
+            C.PinCode == PinCode)
+        {
+            Client = C;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool LoadClientInfo(string AccountNumber, string PinCode)
+{
+    return FindClientByAccountAndPin(AccountNumber,
+        PinCode, CurrentClient);
+}
+
+void Login()
+{
+    bool LoginFailed = false;
+    string AccountNumber, PinCode;
+
+    do
+    {
+        system("cls");
+        cout << "\n---------------------------------\n";
+        cout << "\t    ATM Login Screen\n";
+        cout << "---------------------------------\n";
+
+        if (LoginFailed)
+            cout << "Invalid Account Number or Pin Code!\n\n";
+
+        cout << "Enter Account Number: ";
+        cin >> AccountNumber;
+
+        cout << "Enter Pin Code: ";
+        cin >> PinCode;
+
+        LoginFailed = !LoadClientInfo(AccountNumber, PinCode);
+
+    } while (LoginFailed);
+
+    ShowMainMenu();
+}
 int main()
 {
     return 0;
