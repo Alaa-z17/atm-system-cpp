@@ -4,6 +4,11 @@ A console-based ATM System built in **C++** demonstrating
 core concepts of **Functional & Procedural Programming**.
 
 ---
+## 🎬 Video Walkthrough
+
+[![ATM System in C++](https://img.youtube.com/vi/-nfSH6qTxwU/0.jpg)](https://youtu.be/-nfSH6qTxwU)
+
+> Click the image above to watch the full project walkthrough on YouTube.
 
 ## 🎯 Learning Objectives
 
