@@ -231,6 +231,131 @@ void Login()
 
     ShowMainMenu();
 }
+// =====================
+// Transaction Functions
+// =====================
+
+bool DepositToClient(string AccountNumber, double Amount,
+    vector<stClient>& vClients)
+{
+    char Answer = 'N';
+    cout << "\nAre you sure you want to perform this transaction? Y/N? ";
+    cin >> Answer;
+
+    if (toupper(Answer) == 'Y')
+    {
+        for (stClient& C : vClients)
+        {
+            if (C.AccountNumber == AccountNumber)
+            {
+                C.AccountBalance += Amount;
+                SaveClientsToFile(ClientsFileName, vClients);
+                cout << "\nDone! New Balance: " << C.AccountBalance << "\n";
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+double ReadDepositAmount()
+{
+    double Amount = 0;
+    do
+    {
+        cout << "\nEnter Deposit Amount (positive): ";
+        cin >> Amount;
+    } while (Amount <= 0);
+    return Amount;
+}
+
+int ReadWithdrawAmount()
+{
+    int Amount = 0;
+    do
+    {
+        cout << "\nEnter Withdraw Amount (multiple of 5): ";
+        cin >> Amount;
+    } while (Amount % 5 != 0);
+    return Amount;
+}
+
+void PerformDepositOption()
+{
+    double DepositAmount = ReadDepositAmount();
+    vector<stClient> vClients = LoadClientsFromFile(ClientsFileName);
+    DepositToClient(CurrentClient.AccountNumber,
+        DepositAmount, vClients);
+    CurrentClient.AccountBalance += DepositAmount;
+}
+
+void PerformNormalWithdrawOption()
+{
+    int WithdrawAmount = ReadWithdrawAmount();
+
+    if (WithdrawAmount > CurrentClient.AccountBalance)
+    {
+        cout << "\nAmount exceeds your balance!\n";
+        cout << "Press any key to continue...";
+        system("pause>0");
+        ShowNormalWithdrawScreen();
+        return;
+    }
+
+    vector<stClient> vClients = LoadClientsFromFile(ClientsFileName);
+    DepositToClient(CurrentClient.AccountNumber,
+        WithdrawAmount * -1, vClients);
+    CurrentClient.AccountBalance -= WithdrawAmount;
+}
+
+short GetQuickWithdrawAmount(short Option)
+{
+    switch (Option)
+    {
+    case 1: return 20;
+    case 2: return 50;
+    case 3: return 100;
+    case 4: return 200;
+    case 5: return 400;
+    case 6: return 600;
+    case 7: return 800;
+    case 8: return 1000;
+    default: return 0;
+    }
+}
+
+short ReadQuickWithdrawOption()
+{
+    short Choice = 0;
+    do
+    {
+        cout << "\nChoose [1-9]: ";
+        cin >> Choice;
+    } while (Choice < 1 || Choice > 9);
+    return Choice;
+}
+
+void PerformQuickWithdrawOption(short Option)
+{
+    if (Option == 9)
+        return;
+
+    short WithdrawAmount = GetQuickWithdrawAmount(Option);
+
+    if (WithdrawAmount > CurrentClient.AccountBalance)
+    {
+        cout << "\nAmount exceeds your balance!\n";
+        cout << "Press any key to continue...";
+        system("pause>0");
+        ShowQuickWithdrawScreen();
+        return;
+    }
+
+    vector<stClient> vClients = LoadClientsFromFile(ClientsFileName);
+    DepositToClient(CurrentClient.AccountNumber,
+        WithdrawAmount * -1, vClients);
+    CurrentClient.AccountBalance -= WithdrawAmount;
+}
 int main()
 {
     return 0;
