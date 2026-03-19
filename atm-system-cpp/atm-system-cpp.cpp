@@ -377,6 +377,53 @@ void ShowQuickWithdrawScreen()
 
     PerformQuickWithdrawOption(ReadQuickWithdrawOption());
 }
+// =====================
+// Normal Withdraw Screen
+// =====================
+
+void ShowNormalWithdrawScreen()
+{
+    system("cls");
+    cout << "===========================================\n";
+    cout << "\t\tNormal Withdraw\n";
+    cout << "===========================================\n";
+    cout << "\tYour Balance: $" << CurrentClient.AccountBalance << "\n";
+    cout << "===========================================\n";
+
+    PerformNormalWithdrawOption();
+}
+
+// =====================
+// Deposit Screen
+// =====================
+
+void ShowDepositScreen()
+{
+    system("cls");
+    cout << "===========================================\n";
+    cout << "\t\tDeposit Screen\n";
+    cout << "===========================================\n";
+    cout << "\tYour Balance: $" << CurrentClient.AccountBalance << "\n";
+    cout << "===========================================\n";
+
+    PerformDepositOption();
+}
+
+// =====================
+// Check Balance Screen
+// =====================
+
+void ShowCheckBalanceScreen()
+{
+    system("cls");
+    cout << "===========================================\n";
+    cout << "\t\tCheck Balance\n";
+    cout << "===========================================\n";
+    cout << "\tAccount Number : " << CurrentClient.AccountNumber << "\n";
+    cout << "\tName           : " << CurrentClient.Name << "\n";
+    cout << "\tBalance        : $" << CurrentClient.AccountBalance << "\n";
+    cout << "===========================================\n";
+}
 int main()
 {
     return 0;
